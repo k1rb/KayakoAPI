@@ -32,3 +32,6 @@ foreach($line in $(get-content $psscriptroot\secret | where-object { $_ -notmatc
         default     { write-error 'Invalid secret file.' ; break }
     }
 }
+
+# Set TLS version 1.2
+[net.servicepointmanager]::securityprotocol = [net.securityprotocoltype]::tls12
