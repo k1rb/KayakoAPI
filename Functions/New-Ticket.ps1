@@ -47,11 +47,13 @@ function New-Ticket{
          ) -join '='
     }
 
+    $endpoint   = 'Tickets/Ticket'
+
     # HTTP Parameters (POST)
     $paramies   = @{
         method  = 'POST'
         headers = @{ 'Content-Type' = 'application/x-www-form-urlencoded' }
-        uri     = $script:config.server, 'Tickets/Ticket' -join '/'
+        uri     = $script:config.server, $endpoint -join '/'
         body    = $collection -join '&'
     }
 

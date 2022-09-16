@@ -3,7 +3,6 @@ function Resolve-TicketDepartmentID{
         [parameter(mandatory=$true)][string]$Department
     )
 
-    get-ticketdepartment -department $department `
-        | select-object -expand id
+    get-ticketdepartment -department $department | select-object -expand id
 
 }

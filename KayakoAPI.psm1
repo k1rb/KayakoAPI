@@ -1,4 +1,7 @@
-# Dot source functions
+# Stop if we don't have an API secret file
+if(!(test-path "$psscriptroot\secret")){ write-error "Missing secret file." ; break }
+
+# Dot source functions with progress...
 "$psscriptroot/Functions" | foreach-object {
 
     $c = split-path $_ -leaf
@@ -15,23 +18,38 @@
 
 }
 
-# Create Config
-$script:config = @{
-    'server' = ''
-    'apikey' = ''
-    'secret' = ''
-    'offset' = (get-timezone).baseutcoffset.hours
+# Read secret and parse into config
+$config = @{
+    epoch = get-date '1/1/1970 5:00AM'
+    tz_offset = (get-timezone).baseutcoffset.hours
+    time_properties = @(
+        'lastactivity'
+        'creationtime'
+        'nextreplydue'
+        'laststaffreply'
+        'lastuserreply'
+        'dateline'
+    )
 }
 
-# Read and parse the secret into the config
-foreach($line in $(get-content $psscriptroot\secret | where-object { $_ -notmatch '^#.*$' -and $_ })){
-    switch($line.split('=')[0].trim("`"'/ ")){
-        'server'    { $script:config.server = $line.split('=')[1].trim("`"'/ "), 'api/index.php?' -join '/' }
-        'apikey'    { $script:config.apikey = $line.split('=')[1].trim("`"'/ ") }
-        'secret'    { $script:config.secret = $line.split('=')[1].trim("`"'/ ") }
-        default     { write-error 'Invalid secret file.' ; break }
+foreach($line in (get-content "$psscriptroot\secret")){
+    $k = $line.split('=')[0]
+    $v = $line.split('=')[1..$($line.split('=').count)] -join '='
+    if($k -eq 'server'){
+        $proto = ($v.split('/')|?{$_})[0]
+        $host  = ($v.split('/')|?{$_})[1]
+        $api   = '/api/index.php?'
+        $v     = "$proto//$host/$api"
     }
+    $config.add($k.trim(), $v.trim())
 }
+
+if(!$config.server -or !$config.apikey -or !$config.secret){
+    write-error "Invalid secret file. Must include server URL, API Key, and Secret key."
+    break
+}
+
+
 
 # Set TLS version 1.2
 [net.servicepointmanager]::securityprotocol = [net.securityprotocoltype]::tls12

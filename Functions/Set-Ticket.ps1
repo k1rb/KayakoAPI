@@ -23,11 +23,13 @@ function Set-Ticket{
     if($ticketpriorityid){ $collection += 'ticketpriorityid', $ticketpriorityid -join '='                                                          }
     if($tickettypeid){     $collection += 'tickettypeid', $tickettypeid -join '='                                                                  }
 
+    $endpoint   = 'Tickets/Ticket'
+
     # HTTP Parameters (POST)
     $paramies   = @{
         method  = 'PUT'
         headers = @{ 'Content-Type' = 'application/x-www-form-urlencoded' }
-        uri     = $script:config.server, 'Tickets/Ticket', $ticketid -join '/'
+        uri     = $script:config.server, $endpoint, $ticketid -join '/'
         body    = $collection -join '&'
     }
 

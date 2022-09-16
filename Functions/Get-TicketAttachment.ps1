@@ -1,9 +1,9 @@
-function Get-TicketPost{
+function Get-TicketAttachments {
     param(
         [parameter(mandatory=$true,position=0)][alias('id')][string]$TicketID
     )
 
-    $endpoint  = 'Tickets/TicketPost/listall'
+    $endpoint  = 'Tickets/TicketAttachment/ListAll'
 
     # HTTP Parameters
     $paramies  = @{

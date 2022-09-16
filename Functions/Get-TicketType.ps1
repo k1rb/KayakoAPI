@@ -10,10 +10,12 @@ function Get-TicketType{
         )
     $depts += @('0')
 
+    $endpoint  = 'Tickets/TicketType'
+
     # HTTP parameters
-    $paramies   = @{
-        method  = 'GET'
-        uri     = @($($script:config.server, 'Tickets/TicketType' -join '/'), $(new-signature)) -join '&'
+    $paramies  = @{
+        method = 'GET'
+        uri    = @($($script:config.server, $endpoint -join '/'), $(new-signature)) -join '&'
     }
 
     # GET /Tickets/TicketPriority

@@ -22,11 +22,13 @@ function New-TicketNote{
         $collection += 'notecolor', $notecolor -join '='
     }
 
+    $endpoint   = 'Tickets/TicketNote'
+
     # HTTP Parameters (POST)
     $paramies   = @{
         method  = 'POST'
         headers = @{ 'Content-Type' = 'application/x-www-form-urlencoded' }
-        uri     = $script:config.server, 'Tickets/TicketNote' -join '/'
+        uri     = $script:config.server, $endpoint -join '/'
         body    = $collection -join '&'
     }
 

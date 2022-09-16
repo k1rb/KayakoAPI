@@ -10,10 +10,12 @@ function Get-TicketStatus{
         )
     $depts += @('0')
 
+    $endpoint  = 'Tickets/TicketStatus'
+
     # HTTP parameters
-    $paramies   = @{
-        method  = 'GET'
-        uri     = @($($script:config.server, 'Tickets/TicketStatus' -join '/'), $(new-signature)) -join '&'
+    $paramies  = @{
+        method = 'GET'
+        uri    = @($($script:config.server, $endpoint -join '/'), $(new-signature)) -join '&'
     }
 
     # GET /Tickets/TicketStatus; Return only Matching Department ID's.

@@ -22,13 +22,12 @@ function Remove-Ticket{
         if(!$ticketid){ return }
     }
 
+    $endpoint  = 'Tickets/Ticket'
+
     # HTTP Parameters
-    $paramies    = @{
-        method  = 'DELETE'
-        uri     = @(
-            $($script:config.server, 'Tickets/Ticket', $ticketid -join '/'),
-            $(new-signature)
-        ) -join '&'
+    $paramies  = @{
+        method = 'DELETE'
+        uri    = @($($script:config.server, $endpoint, $ticketid -join '/'),$(new-signature)) -join '&'
     }
 
     # DELETE /Tickets/Ticket/$ticketid

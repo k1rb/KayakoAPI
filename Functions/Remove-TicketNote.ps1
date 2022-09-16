@@ -28,13 +28,12 @@ function Remove-TicketNote{
         if(!$ticketid -or !$noteid){ return }
     }
 
+    $endpoint   = 'Tickets/TicketNote'
+
     # HTTP Parameters
-    $paramies    = @{
+    $paramies   = @{
         method  = 'DELETE'
-        uri     = @(
-            $($script:config.server, 'Tickets/TicketNote', $ticketid, $noteid -join '/'),
-            $(new-signature)
-        ) -join '&'
+        uri     = @($($script:config.server, $endpoint, $ticketid, $noteid -join '/'), $(new-signature)) -join '&'
     }
 
     # DELETE /Tickets/TicketNote/$ticketid/$noteid

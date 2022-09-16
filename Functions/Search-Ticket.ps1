@@ -34,11 +34,13 @@ function Search-Ticket{
     if($InUser){             $collection += 'user', '1' -join '='               }
     if($InTags){             $collection += 'tags', '1' -join '='               }
 
+    $endpoint   = 'Tickets/TicketSearch'
+
     # HTTP Parameters (POST)
     $paramies   = @{
         method  = 'POST'
         headers = @{ 'Content-Type' = 'application/x-www-form-urlencoded' }
-        uri     = $script:config.server, 'Tickets/TicketSearch' -join '/'
+        uri     = $script:config.server, $endpoint -join '/'
         body    = $collection -join '&'
     }
 

@@ -3,10 +3,12 @@ function Get-TicketStaff{
         [parameter()][alias('Name')][string]$Fullname='*'
     )
 
+    $endpoint  = 'Base/Staff'
+
     # HTTP parameters
-    $paramies   = @{
-        method  = 'GET'
-        uri     = @($($script:config.server, 'Base/Staff' -join '/'), $(new-signature)) -join '&'
+    $paramies  = @{
+        method = 'GET'
+        uri    = @($($script:config.server, $endpoint -join '/'), $(new-signature)) -join '&'
     }
 
     # GET /Base/Staff
