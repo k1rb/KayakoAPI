@@ -38,7 +38,7 @@ foreach($line in (get-content "$psscriptroot\secret")){
     if($k -eq 'server'){
         $proto = ($v.split('/')|?{$_})[0]
         $host  = ($v.split('/')|?{$_})[1]
-        $api   = '/api/index.php?'
+        $api   = 'api/index.php?'
         $v     = "$proto//$host/$api"
     }
     $config.add($k.trim(), $v.trim())
