@@ -60,6 +60,13 @@ function ConvertTo-KayakoObject{
             }
         }
 
+        # If this is a ticket with a note, replace note with entire Note object
+        if($payloadtype -eq 'ticket'){
+            if($skeleton.note.count -eq 1){
+                $skeleton.note = @( get-ticketnote $skeleton.id )
+            }
+        }
+
         # If this is a ticket post, remove the <br />
         if($payloadtype -eq 'post'){
             $skeleton.contents = $skeleton.contents.replace('<br />','')
