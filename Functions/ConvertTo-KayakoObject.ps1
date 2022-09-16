@@ -53,10 +53,10 @@ function ConvertTo-KayakoObject{
 
         # Convert these properties (seconds from Epoch 0) into datetime.
         foreach($property in $script:config.time_properties){
-            if($skeleton.$property -eq 0){
-                $skeleton.$property = $null
+            if($skeleton."$property" -gt 0){
+                $skeleton."$property" = $script:config.epoch.addseconds($skeleton."$property").addhours($script:config.tz_offset)
             } else {
-                $skeleton.$property = $script:config.epoch.addseconds($skeleton.$property).addhours($script:config.tz_offset)
+                $skeleton."$property" = $null
             }
         }
 
@@ -65,7 +65,7 @@ function ConvertTo-KayakoObject{
             $skeleton.contents = $skeleton.contents.replace('<br />','')
         }
 
-        # Return as PSCustomObject
+        # Return object
         [pscustomobject]$skeleton
 
     }
