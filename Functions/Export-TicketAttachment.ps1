@@ -30,7 +30,7 @@ function Export-TicketAttachment {
         $file_extension = $data.filename.split('.')[-1]
         $file_name = $data.filename.split('.')[0..$($data.filename.split('.').count -2)] -join '.'
         [io.file]::writeallbytes(
-            $(((get-location).path),
+            $($folderpath,
             $(($file_name, $ticketid, $attachmentid -join '_'), $file_extension -join '.') -join '/'),
             $([convert]::frombase64string($data.contents))
         )
