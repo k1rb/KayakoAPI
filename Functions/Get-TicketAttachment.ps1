@@ -1,4 +1,4 @@
-function Get-TicketAttachments {
+function Get-TicketAttachment {
     param(
         [parameter(mandatory=$true,position=0)][alias('id')][string]$TicketID
     )
